@@ -7,7 +7,9 @@
      - 使用require加载模块
      - 请求返回可以继续执行任务(fastcgi_finish, ngx.eof())
      - 连接池使用
-     - Lua中数组的索引是从1开始的,可以使用#号(所有数字索引总和)和table.maxn(最后一个数字索引键值)两种方法来获取数组的长度
+     - Lua中数组的索引是从1开始的,
+       - 可以使用#号(所有数字索引总和)
+       - table.maxn(最后一个数字索引键值)两种方法来获取数组的长度
      - 判断table对象为空 table = {} : 
        <pre><code>if next(a) ~=nil then dosomething end`</code></pre>
    - 函数、闭包、尾调用
