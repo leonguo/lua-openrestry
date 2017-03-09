@@ -13,8 +13,8 @@
      - 连接池使用
      
      - Lua中数组的索引是从1开始的
-       - 可以使用#号(所有数字索引总和)
-       - table.maxn(最后一个数字索引键值)两种方法来获取数组的长度
+        - 可以使用#号(所有数字索引总和).
+        - table.maxn(最后一个数字索引键值)两种方法来获取数组的长度
        
      - 判断table对象为空 table = {}
        <pre><code>if next(a) ~=nil then dosomething end`</code></pre>
