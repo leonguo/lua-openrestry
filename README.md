@@ -8,7 +8,7 @@
    - [lua单元测试](https://github.com/Olivine-Labs/busted)
    
    - [wrk-HTTP压测工具](https://github.com/wg/wrk)
-      - [lua脚本](https://github.com/leonguo/lua-openrestry/blob/master/wrk/post.lua)
+      - [lua-POST压测脚本](https://github.com/leonguo/lua-openrestry/blob/master/wrk/post.lua)
    
    - lua技巧
      - 变量申明尽量使用local
@@ -65,7 +65,6 @@
     <pre>
       <code>
           local function foo(n)
-               print('dada'..tostring(n))
               if n > 0 then
                   return foo(n-1)
               else
