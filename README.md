@@ -1,17 +1,20 @@
-# lua-openrestry
+## lua-openrestry
 
-- lua知识总结
-   - [web框架](https://github.com/sumory/lor)
+- openrestry 知识总结
+   - web框架
+      - [lor](https://github.com/sumory/lor)
+      - [vanilla](https://github.com/idevz/vanilla)
    
    - [lua单元测试](https://github.com/Olivine-Labs/busted)
    
    - [wrk-HTTP压测工具](https://github.com/wg/wrk)
       - [lua脚本](https://github.com/leonguo/lua-openrestry/blob/master/wrk/post.lua)
    
-   - 技巧
+   - lua技巧
      - 变量申明尽量使用local
      
-     - 错误处理需要使用pcall包装要执行的代码
+     - 错误处理
+        - 使用pcall包装要执行的代码
      
      - 使用require加载模块
      
