@@ -1,6 +1,13 @@
 # lua-openrestry
 
 - lua知识总结
+   - [web框架](https://github.com/sumory/lor)
+   
+   - [lua单元测试](https://github.com/Olivine-Labs/busted)
+   
+   - [wrk-HTTP压测工具](https://github.com/wg/wrk)
+      - [lua脚本](https://github.com/leonguo/lua-openrestry/blob/master/wrk/post.lua)
+   
    - 技巧
      - 变量申明尽量使用local
      
