@@ -13,67 +13,84 @@
    - ngx_lua模块API说明
       - Ngx指令
          - lua_code_cache on | off;
-         作用:打开或关闭 Lua 代码缓存，影响以下指令： set_by_lua_file , content_by_lua_file, rewrite_by_lua_file, access_by_lua_file 及强制加载或者reload Lua 模块等.缓存开启时修改LUA代码需要重启nginx,不开启时则不用。开发阶段一般关闭缓存。
-         作用域：main, server, location, location if
+            <pre>
+             作用:打开或关闭 Lua 代码缓存，影响以下指令： set_by_lua_file , content_by_lua_file, rewrite_by_lua_file, access_by_lua_file 及强制加载或者reload Lua 模块等.缓存开启时修改LUA代码需要重启nginx,不开启时则不用。开发阶段一般关闭缓存。
+             作用域：main, server, location, location if
+            </pre>
 
          - lua_regex_cache_max_entries 1024;
-         作用：未知（貌似是限定缓存正则表达式处理结果的最大数量）
+             <pre>
+             作用：未知（貌似是限定缓存正则表达式处理结果的最大数量）
+             </pre>
 
          - lua_package_path .../path... ;
-         作用：设置用lua代码写的扩展库路径。
-         例：lua_package_path '/foo/bar/?.lua;/blah/?.lua;;';
-
+             <pre>
+             作用：设置用lua代码写的扩展库路径。
+             例：lua_package_path '/foo/bar/?.lua;/blah/?.lua;;';
+             </pre>
          - lua_package_cpath '/bar/baz/?.so;/blah/blah/?.so;;';
-         作用：设置C扩展的lua库路径。
-
+            <pre>
+            作用：设置C扩展的lua库路径。
+         </pre>
          - set_by_lua $var '<lua-script>' [$arg1 $arg2];
-         set_by_lua_file $var <path-to-lua-script-file> [$arg1 $arg2 ...];
-         作用：设置一个Nginx变量，变量值从lua脚本里运算由return返回，可以实现复杂的赋值逻辑；此处是阻塞的，Lua代码要做到非常快.
-         另外可以将已有的ngx变量当作参数传进Lua脚本里去，由ngx.arg[1],ngx.arg[2]等方式访问。
-         作用域：main, server, location, server if, location if
-         处理阶段：rewrite
-
+            <pre>
+             set_by_lua_file $var <path-to-lua-script-file> [$arg1 $arg2 ...];
+             作用：设置一个Nginx变量，变量值从lua脚本里运算由return返回，可以实现复杂的赋值逻辑；此处是阻塞的，Lua代码要做到非常快.
+             另外可以将已有的ngx变量当作参数传进Lua脚本里去，由ngx.arg[1],ngx.arg[2]等方式访问。
+             作用域：main, server, location, server if, location if
+             处理阶段：rewrite
+            </pre>
          - content_by_lua '<lua script>';
-        content_by_lua_file luafile;
-         作用域：location, location if
-         说明：内容处理器，接收请求处理并输出响应，content_by_lua直接在nginx配置文件里编写较短Lua代码后者使用lua文件。
-
+         <pre>
+             content_by_lua_file luafile;
+             作用域：location, location if
+             说明：内容处理器，接收请求处理并输出响应，content_by_lua直接在nginx配置文件里编写较短Lua代码后者使用lua文件。
+        </pre>
          - rewrite_by_lua '<lua script>'
-         rewrite_by_lua_file lua_file;
-         作用域：http, server, location, location if
-         执行内部URL重写或者外部重定向，典型的如伪静态化的URL重写。其默认执行在rewrite处理阶段的最后.
-         注意，在使用rewrite_by_lua时，开启rewrite_log on;后也看不到相应的rewrite log。
-
+            <pre>
+             rewrite_by_lua_file lua_file;
+             作用域：http, server, location, location if
+             执行内部URL重写或者外部重定向，典型的如伪静态化的URL重写。其默认执行在rewrite处理阶段的最后.
+             注意，在使用rewrite_by_lua时，开启rewrite_log on;后也看不到相应的rewrite log。
+            </pre>
          - access_by_lua 'lua code';
-         access_by_lua_file lua_file.lua;
-         作用：用于访问控制，比如我们只允许内网ip访问，可以使用如下形式。
-         access_by_lua '
-         if ngx.req.get_uri_args()["token"] ~= "123" then
-            return ngx.exit(403)
-         end ';
-         作用域：http, server, location, location if
-
+         <pre>
+             access_by_lua_file lua_file.lua;
+             作用：用于访问控制，比如我们只允许内网ip访问，可以使用如下形式。
+             access_by_lua '
+             if ngx.req.get_uri_args()["token"] ~= "123" then
+                return ngx.exit(403)
+             end ';
+             作用域：http, server, location, location if
+        </pre>
          - header_filter_by_lua 'lua code';
-         header_filter_by_lua_file path_file.lua;
-         作用：设置header 和 cookie；
-
+         <pre>
+             header_filter_by_lua_file path_file.lua;
+             作用：设置header 和 cookie；
+        </pre>
          - lua_need_request_body on|off;
-         作用：是否读请求体，跟ngx.req.read_body()函数作用类似,但官方不推荐使用此方法。
+         <pre>
+             作用：是否读请求体，跟ngx.req.read_body()函数作用类似,但官方不推荐使用此方法。
 
          - lua_shared_dict shared_data 10m;
-         作用：设置一个共享全局变量表，在所有worker进程间共享。在lua脚本中可以如下访问它：
-         例：local shared_data = ngx.shared.shared_data
-         10m 不知是什么意思。
-
+         <pre>
+             作用：设置一个共享全局变量表，在所有worker进程间共享。在lua脚本中可以如下访问它：
+             例：local shared_data = ngx.shared.shared_data
+             10m 不知是什么意思。
+        </pre>
          - init_by_lua 'lua code';
-         init_by_lua_file lua_file.lua;
-         作用域：http
-         说明：ginx Master进程加载配置时执行；通常用于初始化全局配置/预加载Lua模块
-
+         <pre>
+             init_by_lua_file lua_file.lua;
+             作用域：http
+             说明：ginx Master进程加载配置时执行；通常用于初始化全局配置/预加载Lua模块
+        </pre>
          - init_worker_by_lua 'lua code';
-         init_worker_by_lua_file luafile.lua;
-         作用域：http
-         说明：每个Nginx Worker进程启动时调用的计时器，如果Master进程不允许则只会在init_by_lua之后调用；通常用于定时拉取配置/数据，或者后端服务的健康检查。
+            <pre>
+             init_worker_by_lua_file luafile.lua;
+             作用域：http
+             说明：每个Nginx Worker进程启动时调用的计时器，如果Master进程不允许则只会在init_by_lua之后调用；通常用于定时拉取配置/数据，或者后端服务的健康检查。
+             </pre>
+
    - 常用常量和方法
      - 详细说明
         <pre><code>
@@ -139,6 +156,7 @@
             ngx.INFO
             ngx.DEBUG
         </code></pre>
+
      - API中的方法：
         <pre><code>
         print()                         #与 ngx.print()方法有区别，print() 相当于ngx.log()
@@ -210,6 +228,7 @@
             ngx.shared.DICT.get_keys
         ndk.set_var.DIRECTIVE
     </code></pre>
+
    - lua技巧
      - 变量申明尽量使用local
      
