@@ -159,74 +159,144 @@
 
      - API中的方法：
         <pre><code>
-        print()                         #与 ngx.print()方法有区别，print() 相当于ngx.log()
-        ngx.ctx                         #这是一个lua的table，用于保存ngx上下文的变量，在整个请求的生命周期内都有效,详细参考官方
-        ngx.location.capture()          #发出一个子请求，详细用法参考官方文档。
-        ngx.location.capture_multi()    #发出多个子请求，详细用法参考官方文档。
-        ngx.status                      #读或者写当前请求的相应状态. 必须在输出相应头之前被调用.
-        ngx.header.HEADER               #访问或设置http header头信息，详细参考官方文档。
-        ngx.req.set_uri()               #设置当前请求的URI,详细参考官方文档
-        ngx.set_uri_args(args)          #根据args参数重新定义当前请求的URI参数.
-        ngx.req.get_uri_args()          #返回一个LUA TABLE，包含当前请求的全部的URL参数
-        ngx.req.get_post_args()         #返回一个LUA TABLE，包括所有当前请求的POST参数
-        ngx.req.get_headers()           #返回一个包含当前请求头信息的lua table.
-        ngx.req.set_header()            #设置当前请求头header某字段值.当前请求的子请求不会受到影响.
-        ngx.req.read_body()             #在不阻塞ngnix其他事件的情况下同步读取客户端的body信息.[详细]
-        ngx.req.discard_body()          #明确丢弃客户端请求的body
-        ngx.req.get_body_data()         #以字符串的形式获得客户端的请求body内容
-        ngx.req.get_body_file()         #当发送文件请求的时候，获得文件的名字
-        ngx.req.set_body_data()         #设置客户端请求的BODY
-        ngx.req.set_body_file()         #通过filename来指定当前请求的file data。
-        ngx.req.clear_header()          #清求某个请求头
-        ngx.exec(uri,args)              #执行内部跳转，根据uri和请求参数
-        ngx.redirect(uri, status)       #执行301或者302的重定向。
-        ngx.send_headers()              #发送指定的响应头
-        ngx.headers_sent                #判断头部是否发送给客户端ngx.headers_sent=true
-        ngx.print(str)                  #发送给客户端的响应页面
-        ngx.say()                       #作用类似ngx.print，不过say方法输出后会换行
-        ngx.log(log.level,...)          #写入nginx日志
-        ngx.flush()                     #将缓冲区内容输出到页面（刷新响应）
-        ngx.exit(http-status)           #结束请求并输出状态码
-        ngx.eof()                       #明确指定关闭结束输出流
-        ngx.escape_uri()                #URI编码(本函数对逗号,不编码，而php的urlencode会编码)
-        ngx.unescape_uri()              #uri解码
-        ngx.encode_args(table)          #将tabel解析成url参数
-        ngx.decode_args(uri)            #将参数字符串编码为一个table
-        ngx.encode_base64(str)          #BASE64编码
-        ngx.decode_base64(str)          #BASE64解码
-        ngx.crc32_short(str)            #字符串的crs32_short哈希
-        ngx.crc32_long(str)             #字符串的crs32_long哈希
-        ngx.hmac_sha1(str)              #字te符串的hmac_sha1哈希
-        ngx.md5(str)                    #返回16进制MD5
-        ngx.md5_bin(str)                #返回2进制MD5
-        ngx.today()                     #返回当前日期yyyy-mm-dd
-        ngx.time()                      #返回当前时间戳
-        ngx.now()                       #返回当前时间
-        ngx.update_time()               #刷新后返回
-        ngx.localtime()                 #返回 yyyy-mm-dd hh:ii:ss
-        ngx.utctime()                   #返回yyyy-mm-dd hh:ii:ss格式的utc时间
-        ngx.cookie_time(sec)            #返回用于COOKIE使用的时间
-        ngx.http_time(sec)              #返回可用于http header使用的时间
-        ngx.parse_http_time(str)        #解析HTTP头的时间
-        ngx.is_subrequest               #是否子请求（值为 true or false）
-        ngx.re.match(subject,regex,options,ctx)     #ngx正则表达式匹配，详细参考官网
-        ngx.re.gmatch(subject,regex,opt)            #全局正则匹配
-        ngx.re.sub(sub,reg,opt)         #匹配和替换（未知）
-        ngx.re.gsub()                   #未知
-        ngx.shared.DICT                 #ngx.shared.DICT是一个table 里面存储了所有的全局内存共享变量
-            ngx.shared.DICT.get
-            ngx.shared.DICT.get_stale
-            ngx.shared.DICT.set
-            ngx.shared.DICT.safe_set
-            ngx.shared.DICT.add
-            ngx.shared.DICT.safe_add
-            ngx.shared.DICT.replace
-            ngx.shared.DICT.delete
-            ngx.shared.DICT.incr
-            ngx.shared.DICT.flush_all
-            ngx.shared.DICT.flush_expired
-            ngx.shared.DICT.get_keys
+        ngx.arg
+        ngx.var.VARIABLE
+        print                                       #与 ngx.print()方法有区别，print() 相当于ngx.log()
+        ngx.ctx                                     #这是一个lua的table，用于保存ngx上下文的变量，在整个请求的生命周期内都有效,详细参考官方
+        ngx.location.capture                        #发出一个子请求，详细用法参考官方文档。
+        ngx.location.capture_multi                  #发出多个子请求，详细用法参考官方文档。
+        ngx.status                                  #读或者写当前请求的相应状态. 必须在输出相应头之前被调用.
+        ngx.header.HEADER                           #访问或设置http header头信息，详细参考官方文档。
+        ngx.resp.get_headers
+        ngx.req.is_internal
+        ngx.req.start_time
+        ngx.req.http_version
+        ngx.req.raw_header
+        ngx.req.get_method
+        ngx.req.set_method
+        ngx.req.set_uri                             #设置当前请求的URI,详细参考官方文档
+        ngx.req.set_uri_args                        #根据args参数重新定义当前请求的URI参数.
+        ngx.req.get_uri_args                        #返回一个LUA TABLE，包含当前请求的全部的URL参数
+        ngx.req.get_post_args                       #返回一个LUA TABLE，包括所有当前请求的POST参数
+        ngx.req.get_headers
+        ngx.req.set_header
+        ngx.req.clear_header
+        ngx.req.read_body
+        ngx.req.discard_body
+        ngx.req.get_body_data                       #以字符串的形式获得客户端的请求body内容
+        ngx.req.get_body_file
+        ngx.req.set_body_data
+        ngx.req.set_body_file
+        ngx.req.init_body
+        ngx.req.append_body
+        ngx.req.finish_body
+        ngx.req.socket
+        ngx.exec
+        ngx.redirect                                #执行301或者302的重定向。
+        ngx.send_headers                            #发送指定的响应头
+        ngx.headers_sent                            #判断头部是否发送给客户端ngx.headers_sent=true
+        ngx.print                                   #发送给客户端的响应页面
+        ngx.say
+        ngx.log
+        ngx.flush
+        ngx.exit
+        ngx.eof
+        ngx.sleep
+        ngx.escape_uri
+        ngx.unescape_uri
+        ngx.encode_args
+        ngx.decode_args
+        ngx.encode_base64
+        ngx.decode_base64
+        ngx.crc32_short
+        ngx.crc32_long
+        ngx.hmac_sha1
+        ngx.md5
+        ngx.md5_bin
+        ngx.sha1_bin
+        ngx.quote_sql_str
+        ngx.today
+        ngx.time
+        ngx.now
+        ngx.update_time
+        ngx.localtime
+        ngx.utctime
+        ngx.cookie_time
+        ngx.http_time
+        ngx.parse_http_time
+        ngx.is_subrequest
+        ngx.re.match
+        ngx.re.find
+        ngx.re.gmatch
+        ngx.re.sub
+        ngx.re.gsub
+        ngx.shared.DICT
+        ngx.shared.DICT.get
+        ngx.shared.DICT.get_stale
+        ngx.shared.DICT.set
+        ngx.shared.DICT.safe_set
+        ngx.shared.DICT.add
+        ngx.shared.DICT.safe_add
+        ngx.shared.DICT.replace
+        ngx.shared.DICT.delete
+        ngx.shared.DICT.incr
+        ngx.shared.DICT.lpush
+        ngx.shared.DICT.rpush
+        ngx.shared.DICT.lpop
+        ngx.shared.DICT.rpop
+        ngx.shared.DICT.llen
+        ngx.shared.DICT.flush_all
+        ngx.shared.DICT.flush_expired
+        ngx.shared.DICT.get_keys
+        ngx.socket.udp
+        udpsock:setpeername
+        udpsock:send
+        udpsock:receive
+        udpsock:close
+        udpsock:settimeout
+        ngx.socket.stream
+        ngx.socket.tcp
+        tcpsock:connect
+        tcpsock:sslhandshake
+        tcpsock:send
+        tcpsock:receive
+        tcpsock:receiveuntil
+        tcpsock:close
+        tcpsock:settimeout
+        tcpsock:settimeouts
+        tcpsock:setoption
+        tcpsock:setkeepalive
+        tcpsock:getreusedtimes
+        ngx.socket.connect
+        ngx.get_phase
+        ngx.thread.spawn
+        ngx.thread.wait
+        ngx.thread.kill
+        ngx.on_abort
+        ngx.timer.at
+        ngx.timer.running_count
+        ngx.timer.pending_count
+        ngx.config.subsystem
+        ngx.config.debug
+        ngx.config.prefix
+        ngx.config.nginx_version
+        ngx.config.nginx_configure
+        ngx.config.ngx_lua_version
+        ngx.worker.exiting
+        ngx.worker.pid
+        ngx.worker.count
+        ngx.worker.id
+        ngx.semaphore
+        ngx.balancer
+        ngx.ssl
+        ngx.ocsp
         ndk.set_var.DIRECTIVE
+        coroutine.create
+        coroutine.resume
+        coroutine.yield
+        coroutine.wrap
+        coroutine.running
+        coroutine.status
     </code></pre>
 
    - lua技巧
