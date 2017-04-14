@@ -196,7 +196,7 @@
         ngx.send_headers                            #发送指定的响应头
         ngx.headers_sent                            #判断头部是否发送给客户端ngx.headers_sent=true
         ngx.print                                   #发送给客户端的响应页面
-        ngx.say
+        ngx.say                                     #输出客户端内容
         ngx.log
         ngx.flush
         ngx.exit
