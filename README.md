@@ -363,3 +363,13 @@
           local rr = foo(22)
     </code>
     </pre>
+
+   - string.find()
+   <pre>
+      <code>
+    s = 'crate.png'
+    i, j = string.find(s, '.')
+    
+    Do either string.find(s, '%.') or string.find(s, '.', 1, true)
+    </code>
+    </pre>
