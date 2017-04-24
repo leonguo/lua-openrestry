@@ -1,7 +1,13 @@
 # psql学习笔记
   -  [OpenResty-Postpresql库](https://github.com/leafo/pgmoon)
   -  postpresql常用命令
-     - su - postpres
-     - \l show database access privileges
-     - \q quit
-     
+     -  su - postpres  进入系统用户
+     -  \l 列出所有数据库   或者： SELECT datname FROM pg_database;
+     -  \du 列出所有角色/用户 或者： SELECT rolname FROM pg_roles;
+     -  \q 退出数据库
+     -  \d 列出当前数据库里的所有表
+     -  \dt 列出当前数据库里的所有资料表
+     -  \c dbname 切换数据库
+     -  \dx 显示安装的插件
+     -  \x 切换横向竖向显示
+     -  show <参数名> 查看该参数的值
