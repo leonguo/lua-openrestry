@@ -112,7 +112,7 @@
      - 判断table对象为空 table = {}
        <pre><code>if next(a) ~=nil then dosomething end`</code></pre>
 
-     - 检查全局变量的命令 :lua-releng
+     - 检查全局变量的命令 :lua-releng  -L *.lua 2>&1 | grep -v -e "lua\:" -e "VERSION"
 
    - 函数、闭包、尾调用
      - 函数 
