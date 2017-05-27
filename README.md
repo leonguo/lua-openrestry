@@ -169,3 +169,12 @@
     Do either string.find(s, '%.') or string.find(s, '.', 1, true)
     </code>
     </pre>
+   - lua代码执行时间
+    <pre>
+    <code>
+        local x = os.clock()
+        local s = 0
+        for i=1,100000 do s = s + i end
+        print(string.format(“elapsed time: %.2f\n”, os.clock() – x))
+    </code>
+    </pre>
