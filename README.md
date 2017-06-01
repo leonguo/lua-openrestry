@@ -175,3 +175,12 @@
         local request_time = ngx.now() - ngx.req.start_time()
     </code>
     </pre>
+   - lua随机数
+    <pre>
+    <code>
+    local resty_random = require "resty.random"
+    local str = require "resty.string"
+    local random = resty_random.bytes(10)
+    local test = str.to_hex(random)
+    </code>
+    </pre>
