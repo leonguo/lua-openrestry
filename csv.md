@@ -11,6 +11,7 @@
 
         foreach data数据
         根据查询内容一行一行写入
+        可将，换成中文逗号
         ngx.say(say_str)
         ngx.flush()
     </code>
